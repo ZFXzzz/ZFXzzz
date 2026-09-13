@@ -7,6 +7,7 @@ AI infrastructure engineer focused on distributed LLM serving, CUDA runtime/tool
 - [vLLM #56653](https://github.com/vllm-project/vllm/issues/56653) — reported a potential integer-second boundary overcount in `vllm bench serve` peak-concurrency metrics, with a CPU-only minimal witness and a clearly scoped metric-contract question.
 - [FlashInfer #5154](https://github.com/flashinfer-ai/flashinfer/pull/5154) — proposed a JIT diagnostic warning for cross-major CUDA toolkit mismatches, with focused regression tests and reproducible validation.
 - [FlashInfer #5145](https://github.com/flashinfer-ai/flashinfer/issues/5145) — documented a CUDA 13 FlashInfer sampler artifact being reused by CUDA 12.9 Ray workers and failing at runtime.
+- [OpenAI Codex #31419](https://github.com/openai/codex/issues/31419) — contributed a redacted Windows Defender report for a `Trojan:Win32/ClickFix.DE!MTB` detection affecting the Computer Use helper during normal `turn-ended` activity, including signature and remediation evidence.
 
 ## Technical focus
 
