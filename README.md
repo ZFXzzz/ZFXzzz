@@ -4,10 +4,10 @@ AI infrastructure engineer focused on distributed LLM serving, CUDA runtime/tool
 
 ## Open-source contributions
 
-- [vLLM #56653](https://github.com/vllm-project/vllm/issues/56653) — reported a potential integer-second boundary overcount in `vllm bench serve` peak-concurrency metrics, with a CPU-only minimal witness and a clearly scoped metric-contract question.
-- [FlashInfer #5154](https://github.com/flashinfer-ai/flashinfer/pull/5154) — proposed a JIT diagnostic warning for cross-major CUDA toolkit mismatches, with focused regression tests and reproducible validation.
-- [FlashInfer #5145](https://github.com/flashinfer-ai/flashinfer/issues/5145) — documented a CUDA 13 FlashInfer sampler artifact being reused by CUDA 12.9 Ray workers and failing at runtime.
-- [OpenAI Codex #31419](https://github.com/openai/codex/issues/31419) — contributed a redacted Windows Defender report for a `Trojan:Win32/ClickFix.DE!MTB` detection affecting the Computer Use helper during normal `turn-ended` activity, including signature and remediation evidence.
+- [vLLM #56653](https://github.com/vllm-project/vllm/issues/56653) · [PR #56675](https://github.com/vllm-project/vllm/pull/56675) — identified and reproduced a peak-concurrency accounting bug in `vllm bench serve`, provided a CPU-only minimal witness, and submitted an initial half-open-interval fix; upstream follow-up [#56678](https://github.com/vllm-project/vllm/pull/56678) addresses the broader continuous-time edge cases.
+- [FlashInfer #5154](https://github.com/flashinfer-ai/flashinfer/pull/5154) — identified a cross-major CUDA toolkit/JIT mismatch risk, proposed a diagnostic warning, and submitted focused regression tests with reproducible validation.
+- [FlashInfer #5145](https://github.com/flashinfer-ai/flashinfer/issues/5145) — isolated and reported a CUDA 13 FlashInfer sampler artifact being reused by CUDA 12.9 Ray workers, with sanitized runtime and provenance evidence.
+- [OpenAI Codex #31419](https://github.com/openai/codex/issues/31419) — reported a Windows Defender detection affecting the Computer Use helper during normal `turn-ended` activity, and contributed redacted signature, reproduction, and remediation evidence for triage.
 
 ## Technical focus
 
