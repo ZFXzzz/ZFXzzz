@@ -1,24 +1,38 @@
-# Fengxin Zhou | AI Infrastructure
+# Fengxin Zhou
 
-AI infrastructure engineer focused on distributed LLM serving, CUDA runtime/toolchain compatibility, Ray-based multi-node inference, and reproducible performance measurement.
+**AI Infrastructure Engineer · Distributed LLM Serving and GPU Reliability**
 
-## Open-source contributions
+I deploy and debug multi-node inference with vLLM and Ray on H20-3e and DGX Spark. My work covers CUDA runtime and build tooling, serving reliability, and reproducible latency and throughput measurement.
 
-- [vLLM #56653](https://github.com/vllm-project/vllm/issues/56653) · [PR #56675](https://github.com/vllm-project/vllm/pull/56675) — identified and reproduced a peak-concurrency accounting bug in `vllm bench serve`, provided a CPU-only minimal witness, and submitted an initial half-open-interval fix; upstream follow-up [#56678](https://github.com/vllm-project/vllm/pull/56678) addresses the broader continuous-time edge cases.
-- [FlashInfer #5154](https://github.com/flashinfer-ai/flashinfer/pull/5154) — identified a cross-major CUDA toolkit/JIT mismatch risk, proposed a diagnostic warning, and submitted focused regression tests with reproducible validation.
-- [FlashInfer #5145](https://github.com/flashinfer-ai/flashinfer/issues/5145) — isolated and reported a CUDA 13 FlashInfer sampler artifact being reused by CUDA 12.9 Ray workers, with sanitized runtime and provenance evidence.
-- [OpenAI Codex #31419](https://github.com/openai/codex/issues/31419) — reported a Windows Defender detection affecting the Computer Use helper during normal `turn-ended` activity, and contributed redacted signature, reproduction, and remediation evidence for triage.
+[Engineering portfolio · EN / 中文](https://zfxzzz.github.io/) · [Upstream contributions](#upstream-contributions) · [Runnable projects](#runnable-projects)
 
-## Technical focus
+## Upstream contributions
 
-- Multi-node LLM serving with vLLM and Ray
-- CUDA driver/runtime/toolkit compatibility and dynamic-library provenance
-- FlashInfer JIT build diagnostics and CPU-only regression testing
-- Throughput, concurrency, TTFT, TPOT, and long-context benchmark analysis
-- Evidence-first incident reports and reproducible infrastructure workflows
+| Project | Contribution | Evidence |
+| --- | --- | --- |
+| **FlashInfer** | Traced a CUDA 13 JIT sampler artifact to a CUDA 12.9 worker failure using build rules and ELF dependencies. Submitted a cross-major toolchain warning with two CPU regression tests. | [Issue #5145](https://github.com/flashinfer-ai/flashinfer/issues/5145) · [PR #5154](https://github.com/flashinfer-ai/flashinfer/pull/5154) |
+| **vLLM** | Reproduced inflated benchmark peak concurrency with adjacent and sub-second requests. Submitted an event-based peak counter and four boundary cases. | [Issue #56653](https://github.com/vllm-project/vllm/issues/56653) · [PR #56675](https://github.com/vllm-project/vllm/pull/56675) |
+| **SparkRing** | Documented how to diagnose a missing NVIDIA CDI refresh service and verify GPU device entries before retrying a DGX Spark deployment. | [PR #403](https://github.com/FujitsuPolycom/sparkring/pull/403) |
 
-## Working principles
+**Additional vLLM reports.** Proposed a DeepSeek V4.1 Flash tool-calling check after finding that plain chat passed while automatic tool selection failed. The report links my example and a community contributor's implementation. I also reported ambiguous SLA guidance that equates a startup KV-cache estimate with measured serving capacity. [Tool calling #69114](https://github.com/vllm-project/vllm/issues/69114) · [KV cache #69117](https://github.com/vllm-project/vllm/issues/69117)
 
-- Separate server-capacity behavior from client-side benchmark accounting.
-- Preserve raw evidence while publishing only sanitized, reproducible artifacts.
-- Validate hypotheses with the smallest test that can fail independently of a live service.
+## Runnable projects
+
+| Repository | What you can inspect or run |
+| --- | --- |
+| **[LLM Serving Checks](https://github.com/ZFXzzz/llm-serving-checks)** | OpenAI-compatible tool-call validation, burst benchmarks, and offline JSON/JSONL/CSV comparison that flags workload differences. Includes synthetic fixtures, offline tests, and an Nginx cutover and rollback guide. |
+| **[Agent Progress Guard](https://github.com/ZFXzzz/agent-progress-guard)** | A dependency-aware state machine for agent workflows. Synthetic-time tests cover empty results, dependency outages, and a task deadline that continues through an outage. |
+
+Try the benchmark report with the included synthetic data:
+
+```sh
+git clone https://github.com/ZFXzzz/llm-serving-checks.git
+cd llm-serving-checks
+python benchmark_report.py examples/benchmark-summaries.csv
+```
+
+## Systems work
+
+- **Distributed serving.** Brought up Kimi K3 across two 8-GPU H20-3e nodes with TP16/EP16. Diagnosed the CUDA toolchain mismatch on Ray workers and verified generation after recovery.
+- **GPU and fabric reliability.** Brought up DeepSeek V4.1 Flash on four DGX Sparks with TP4/SIRCL. Checked RoCE GIDs, management connectivity, and container GPU discovery before API acceptance.
+- **Performance validation.** Compare TTFT, TPOT, throughput, and success rate under explicit prompt length, output length, cache conditions, and client concurrency. See the [engineering case studies](https://zfxzzz.github.io/).
